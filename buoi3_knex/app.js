@@ -1,13 +1,15 @@
-require('dotenv').config()
-
 var createError = require('http-errors');
 var express = require('express');
+var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var http = require('http');
 
+require('dotenv').config();
+
 var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
+var authorsRouter = require('./routes/authors');
+var booksRouter= require('./routes/books')
 
 var app = express();
 
@@ -18,28 +20,28 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
+app.use('/authors', authorsRouter);
+app.use('/books', booksRouter)
 
-// catch 404 and forward to error handler
+//404 error handler
 app.use(function (req, res, next) {
-  return {
-    status: 'error',
+  next(createError(404));
+  res.send({
+    status: 'ERROR',
     statusCode: '404',
-    message: 'NOT FOUND'
-  }
+    message: 'NOT FOUND',
+  })
 });
 
 // error handler
 app.use(function (err, req, res, next) {
-  return {
-    status: 'error',
-    statusCode: 500,
-    message: 'ERROR BITCH!!',
-  }
+  res.send({
+    status: 'ERROR',
+    statusCode: err.status,
+    message: err.message,
+  });
 });
 
 var server = http.createServer(app);
-
-
 var port = process.env.PORT;
 server.listen(port);

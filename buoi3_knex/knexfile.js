@@ -1,8 +1,9 @@
+// Update with your config settings.
 require('dotenv').config();
-
 module.exports = {
+
   development: {
-    client: process.env.DB_TYPE,
+    client: 'mysql',
     connection: {
       host: process.env.DB_HOST,
       port: process.env.DB_PORT,
@@ -17,5 +18,5 @@ module.exports = {
     seeds: {
       directory: __dirname + '/knex/seeds'
     }
-  }
-}
+  },
+};

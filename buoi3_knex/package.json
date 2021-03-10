@@ -4,8 +4,8 @@
   "private": true,
   "scripts": {
     "start": "node app.js",
-    "devit": "nodemon app.js",
-    "knex": "node_modules/.bin/knex"
+    "knex": "node_modules/.bin/knex",
+    "dev": "nodemon app.js"
   },
   "dependencies": {
     "cookie-parser": "~1.4.4",
