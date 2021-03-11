@@ -1,13 +1,22 @@
+const faker = require('faker')
 
-exports.seed = function(knex) {
-  // Deletes ALL existing entries
-  return knex('table_name').del()
+exports.seed = function (knex) {
+  return knex('authors').del()
     .then(function () {
-      // Inserts seed entries
-      return knex('table_name').insert([
-        {id: 1, colName: 'rowValue1'},
-        {id: 2, colName: 'rowValue2'},
-        {id: 3, colName: 'rowValue3'}
-      ]);
+      var authors = []
+      for (let i = 0; i < 5; i++) {
+        authors.push(
+          {
+            first_name: faker.name.firstName(),
+            last_name: faker.name.lastName(),
+            age: faker.random.number({
+              'min': 30,
+              'max': 100
+            })
+          }
+        );
+      }
+
+      return knex('authors').insert(authors);
     });
 };

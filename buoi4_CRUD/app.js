@@ -7,7 +7,7 @@ var http = require('http');
 
 require('dotenv').config();
 
-var indexRouter = require('./src/routes/index');
+var authorRouter = require('./src/routes/authors.js');
 
 var app = express();
 
@@ -22,7 +22,7 @@ app.use(cookieParser());
 
 // app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', indexRouter);
+app.use('/', authorRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

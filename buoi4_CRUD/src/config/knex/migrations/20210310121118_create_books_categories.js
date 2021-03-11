@@ -4,8 +4,8 @@ exports.up = async (knex) => {
     try {
         await transaction.schema.createTable('books_categories', bk_ct => {
             bk_ct.increments();
-            bk_ct.integer('book_id').unsigned().references('books.id');
-            bk_ct.integer('category_id').unsigned().references('categories.id');
+            bk_ct.integer('book_id').unsigned().references('books.id').onDelete('CASCADE');
+            bk_ct.integer('category_id').unsigned().references('categories.id').onDelete('CASCADE');
         });
         await transaction.commit()
     } catch (e) {

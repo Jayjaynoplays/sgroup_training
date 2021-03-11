@@ -7,7 +7,7 @@ exports.up = async (knex) => {
             profile.increments();
             profile.string('email').unique();
             profile.boolean('gender');
-            profile.integer('author_id').notNullable().unique().unsigned().references('authors.id');
+            profile.integer('author_id').notNullable().unique().unsigned().references('authors.id').onDelete('CASCADE');
         })
         await transaction.commit();
     } catch (e) {
