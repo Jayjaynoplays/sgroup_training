@@ -42,9 +42,24 @@ const createOne = async (req, res, next) => {
 
 const getAll = async (req, res, next) => {
     try {
-        const data = await knex('authors').select('*');
+        // let {page, limit} = req.query  -> destructuring js
+
+        let page = req.query.page || 1;
+        let limit = req.query.limit || 2
+        let q_name = req.query.q_n || "";
+
+        const data = await knex('authors')
+            .where('first_name', 'like', `%${q_name}%`)
+            .orWhere('last_name', 'like', `%${q_name}%`)
+            .orderBy("id", "desc")
+            .offset((page * limit) - limit)
+            .limit(limit)
+            .select();
         return res.json({
-            data
+            status: 'success',
+            data,
+            page: parseInt(page, 10),
+            limit: parseInt(limit, 10),
         })
     } catch (error) {
         console.log(error.message);
@@ -90,10 +105,10 @@ const patchOne = async (req, res, next) => {
         await knex('authors').where({ id: req.params.id }).update({
             first_name: req.body.first_name,
             last_name: req.body.last_name,
-            age: req.body.age
+            age: parseInt(req.body.age)
         });
         return res.json({
-            status: 'update success'
+            status: 'update success at ID: ' + req.params.id
         })
     } catch (error) {
         console.log(error.message);
