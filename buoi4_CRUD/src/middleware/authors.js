@@ -1,4 +1,6 @@
 const knex = require('../config/knex/connection');
+
+
 const validatePostOne = (req, res, next) => {
     if (isNaN(req.body.age)) return res.json({
         status: 'fail',

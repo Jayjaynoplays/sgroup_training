@@ -51,10 +51,14 @@ const getAll = async (req, res, next) => {
         const data = await knex('authors')
             .where('first_name', 'like', `%${q_name}%`)
             .orWhere('last_name', 'like', `%${q_name}%`)
-            .orderBy("id", "desc")
+            .orderBy("id", "asc")
             .offset((page * limit) - limit)
             .limit(limit)
             .select();
+        if (data.length < 1)
+            return res.json({
+                status: "not found",
+            })
         return res.json({
             status: 'success',
             data,
