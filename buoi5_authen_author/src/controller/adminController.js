@@ -1,6 +1,7 @@
 const knex = require('../config/knex/connection.js');
 const adminService = require('../service/adminService')
 
+/*------ ROLE --------*/
 const createOneRole = async (req, res, next) => {
     try {
         const role = await knex('roles').insert({
@@ -168,13 +169,105 @@ const deleteOnePermission = async (req, res, next) => {
         })
     }
 }
+
+/*------ CATEGORY --------*/
+const createOneCategory = async (req, res, next) => {
+    try {
+        const category = await knex('categories').insert({
+            name: req.body.name
+        });
+        return res.json({
+            status: 'success',
+            category
+        });
+    } catch (error) {
+        console.log(error);
+        return res.json({
+            status: 'error',
+            code: 500,
+            message: 'Failed to insert category',
+        });
+    }
+}
+
+const getAllCategory = async (req, res, next) => {
+    try {
+        const data = await knex('categories').select().orderBy('id', 'asc');
+        return res.json({
+            status: "success",
+            data
+        });
+
+    } catch (error) {
+        console.log(error);
+        return res.json({
+            status: 'error',
+            code: 500,
+            message: 'Failed to get categories',
+        });
+    }
+}
+
+const patchOneCategory = async (req, res, next) => {
+    try {
+        const category = await adminService.getOne('categories', req.params.id);
+        if (!category) return res.json({
+            status: 'fail',
+            statusCode: 400,
+            message: 'category does not exist'
+        })
+        await knex('categories').where({ id: req.params.id }).update({
+            name: req.body.name
+        });
+        return res.json({
+            status: 'success',
+        })
+    } catch (error) {
+        console.log(error);
+        return res.json({
+            status: 'error',
+            code: 500,
+            message: 'Failed to update category',
+        });
+    }
+}
+
+const deleteOneCategory = async (req, res, next) => {
+    try {
+        const category = await adminService.getOne('categories', req.params.id);
+        if (!category) return res.json({
+            status: 'fail',
+            statusCode: 400,
+            message: 'category does not exist'
+        });
+        await knex('categories').where({ id: req.params.id }).del();
+        return res.json({
+            status: 'success',
+        })
+    } catch (error) {
+        console.log(error);
+        return res.json({
+            status: 'error',
+            code: 500,
+            message: 'Failed to delete category',
+        });
+    }
+}
+
+
 module.exports = {
     createOneRole,
     getAllRole,
     patchOneRole,
     deleteOneRole,
-    getAllPermission,
+
     createOnePermission,
+    getAllPermission,
     patchOnePermission,
-    deleteOnePermission
+    deleteOnePermission,
+
+    createOneCategory,
+    getAllCategory,
+    patchOneCategory,
+    deleteOneCategory
 };

@@ -9,8 +9,8 @@ var { checkAuth } = require('../middleware/authentication');
 
 var { checkAuthorize } = require('../middleware/authorization')
 
-/*------ ROLE --------*/
 
+/*------ ROLE --------*/
 // create
 router.post('/role', validatePostOne, checkAuth, checkAuthorize("CREATE_ROLE"), adminController.createOneRole);
 
@@ -38,8 +38,22 @@ router.patch('/permission/:id', validatePatchOne, checkAuth, checkAuthorize("UPD
 
 //delete 
 router.delete('/permission/:id', validatePatchOne, checkAuth, checkAuthorize("DELETE_PERMISSION"), adminController.deleteOnePermission);
+/*------------------------------------*/
 
 
+/*------ CATEGORIES --------*/
+// create
+router.post('/category', validatePostOne, checkAuth, checkAuthorize("CREATE_CATEGORY"), adminController.createOneCategory);
+
+// read
+router.get('/category', validatePostOne, checkAuth, checkAuthorize("READ_CATEGORY"), adminController.getAllCategory);
+
+//update
+router.patch('/category/:id', validatePatchOne, checkAuth, checkAuthorize("UPDATE_CATEGORY"), adminController.patchOneCategory);
+
+//delete 
+router.delete('/category/:id', validatePatchOne, checkAuth, checkAuthorize("DELETE_CATEGORY"), adminController.deleteOneCategory);
+/*------------------------------------*/
 
 
 module.exports = router;
