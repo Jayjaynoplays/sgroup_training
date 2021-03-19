@@ -1,4 +1,3 @@
-const knex = require('../config/knex/connection');
 
 
 const validatePostOne = (req, res, next) => {

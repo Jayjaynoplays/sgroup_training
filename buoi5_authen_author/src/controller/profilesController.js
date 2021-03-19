@@ -145,7 +145,6 @@ const patchOne = async (req, res, next) => {
 const deleteOne = async (req, res, next) => {
     try {
         const data = await profilesService.getOne(req);
-        
         if (!data) {
             return res.json({
                 status: 'fail',

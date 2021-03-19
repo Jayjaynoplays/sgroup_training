@@ -10,7 +10,8 @@ require('dotenv').config();
 var authorRouter = require('./src/routes/authors.js');
 var profilesRouter = require('./src/routes/profiles.js')
 var booksRouter = require('./src/routes/books.js');
-var authRouter = require('./src/routes/auth')
+var authRouter = require('./src/routes/auth');
+var adminRouter = require('./src/routes/admin');
 
 var app = express();
 
@@ -28,7 +29,8 @@ app.use(cookieParser());
 app.use('/', authorRouter);
 app.use('/', profilesRouter);
 app.use('/', booksRouter);
-app.use('/auth',authRouter);
+app.use('/auth', authRouter);
+app.use('/admin', adminRouter)
 
 
 // catch 404 and forward to error handler

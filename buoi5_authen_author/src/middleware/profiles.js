@@ -1,4 +1,4 @@
-const knex = require('../config/knex/connection');
+
 
 const validatePostOne = (req, res, next) => {
     if (isNaN(req.body.gender || req.body.author_id)) return res.json({
